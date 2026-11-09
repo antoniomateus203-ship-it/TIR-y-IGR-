@@ -24,8 +24,17 @@
 <body class="bg-slate-100 min-h-screen text-slate-800 antialiased">
 
   <!-- ===================== HEADER ===================== -->
-  <header class="bg-gradient-to-r from-emerald-950 via-emerald-800 to-emerald-600 shadow-lg">
-    <div class="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+  <header class="relative overflow-hidden bg-gradient-to-r from-emerald-950 via-emerald-800 to-emerald-600 shadow-lg">
+
+    <div class="absolute top-0 right-0 z-20 h-12 sm:h-14 lg:h-16 select-none pointer-events-none">
+      <img src="https://play-lh.googleusercontent.com/nNX3uE1J5d2IA3aywlINCxcfc-y2uKxo5QcH4GFK1R4AJZj_4RhlG6OYL6_78pAY1lsAWZrblOuiENNj8WDgGw=w240-h480-rw"
+           srcset="https://play-lh.googleusercontent.com/nNX3uE1J5d2IA3aywlINCxcfc-y2uKxo5QcH4GFK1R4AJZj_4RhlG6OYL6_78pAY1lsAWZrblOuiENNj8WDgGw=w480-h960-rw 2x"
+           alt="Ipasgo"
+           class="h-full w-auto object-contain mix-blend-multiply"
+           loading="lazy">
+    </div>
+
+    <div class="relative z-10 max-w-[1700px] mx-auto py-6 pl-4 sm:pl-6 lg:pl-8 pr-[64px] sm:pr-[80px] lg:pr-[96px] flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
       <div>
         <p class="text-emerald-300 text-[11px] font-bold uppercase tracking-[0.22em]">Business Intelligence · Saúde Suplementar</p>
         <h1 class="text-white text-2xl sm:text-3xl font-extrabold mt-1.5 leading-tight">
@@ -43,7 +52,7 @@
         </div>
         <div class="rounded-xl bg-white/10 border border-white/20 backdrop-blur px-4 py-2.5">
           <p class="text-emerald-200 text-[10px] font-bold uppercase tracking-wider">Módulos</p>
-          <p class="text-white text-sm font-bold">4 seções · 5 gráficos</p>
+          <p class="text-white text-sm font-bold">4 seções · 6 gráficos</p>
         </div>
         <div class="rounded-xl bg-white/10 border border-white/20 backdrop-blur px-4 py-2.5">
           <p class="text-emerald-200 text-[10px] font-bold uppercase tracking-wider">Direção IGR</p>
@@ -82,6 +91,11 @@
           O TIR segue tratamento neutro (sem inversão), conforme metodologia própria.
         </span>
       </p>
+      <p>
+        <strong class="text-slate-700">Evolução mensal da TIR:</strong>
+        série de jan/26 a ago/26 das operadoras de grande porte — Autogestão, conforme anexo de acompanhamento.
+        A competência set/26 não integra a série de evolução da TIR.
+      </p>
       <p>Dados extraídos das planilhas oficiais de acompanhamento de operadoras de grande porte — Autogestão e Regional GO.</p>
     </div>
   </footer>
@@ -114,14 +128,17 @@ const IGR_IPASGO_MENSAL = {
   serie:  [15.46, 14.81, 18.93, 14.18, 17.90, 14.89, 23.43, 20.94, 25.19]
 };
 
+/* Evolução da TIR — Autogestão Grande Porte (jan a ago/26) — conforme anexo */
+const TIR_AUTOGESTAO_MENSAL = {
+  labels: ['jan/26','fev/26','mar/26','abr/26','mai/26','jun/26','jul/26','ago/26'],
+  serie:  [76.1, 90.5, 81.3, 80.0, 88.1, 83.3, 86.4, 86.3]
+};
+
 const COLS_IGR = ['Operadora', 'Numerador', 'IGR', 'Posição entre as OPs do mesmo porte', 'Posição Geral Setor'];
 const COLS_TIR = ['Operadora', 'Numerador', 'Denominador', 'TIR', 'Posição entre as OPs do mesmo porte', 'Posição Geral Setor'];
 
 /* ============================================================
    3. CONFIGURAÇÃO DOS 4 MÓDULOS
-   ------------------------------------------------------------
-   charts: []      → um ou mais gráficos por seção
-   menorMelhor     → true: menor valor = melhor (IGR) | false: neutro (TIR)
    ============================================================ */
 const SECTIONS = [
 
@@ -159,12 +176,12 @@ const SECTIONS = [
     pctCols: [2],
     posCols: [3, 4],
     linhas: [
-      ['GEAP',                     723, 180.48, 1, 3],
-      ['CASSI',                    345, 115.60, 2, 6],
-      ['POSTAL SAÚDE',             203, 112.80, 3, 7],
-      ['PETROBRAS DE SAÚDE - APS',  94,  37.00, 7, 24],
-      ['IPASGO Saúde',             142,  25.19, 9, 34],
-      ['ASSEFAZ',                  104, 103.32, 4, 8]
+      ['GEAP',                     912, 226.13, 1, 4],
+      ['CASSI',                    358,  68.07, 5, 12],
+      ['POSTAL SAÚDE',             210, 117.51, 2, 7],
+      ['PETROBRAS DE SAÚDE - APS',  99,  38.54, 7, 27],
+      ['IPASGO Saúde',             147,  26.08, 9, 35],
+      ['ASSEFAZ',                  110, 106.70, 3, 8]
     ],
     kpis: [
       { label: 'IGR IPASGO · set/26',  value: '25,19%', hint: 'Última competência', tom: 'negativo' },
@@ -198,26 +215,26 @@ const SECTIONS = [
     pctCols: [2],
     posCols: [3, 4],
     linhas: [
-      ['UNIMED CNU',      33, 38.13, 17, 29],
-      ['GEAP',            10, 128.83, 7, 16],
-      ['POSTAL SAÚDE',     4, 69.74, 12, 22],
-      ['UNIMED GOIÂNIA', 187, 50.47, 15, 25],
-      ['IPASGO SAÚDE',   135, 24.21, 18, 33]
+      ['UNIMED CNU',      38,  43.87, 16, 27],
+      ['GEAP',            16, 203.20,  3, 11],
+      ['POSTAL SAÚDE',     5,  87.61, 10, 19],
+      ['UNIMED GOIÂNIA', 223,  60.34, 13, 23],
+      ['IPASGO SAÚDE',   142,  25.48, 18, 30]
     ],
     kpis: [
-      { label: 'Mediana IGR',           value: '50,47%', hint: '5 operadoras analisadas', tom: 'neutro' },
-      { label: 'Menor IGR (melhor)',    value: '24,21%', hint: 'IPASGO Saúde', tom: 'positivo' },
-      { label: 'Maior IGR (pior)',      value: '128,83%', hint: 'GEAP', tom: 'negativo' },
+      { label: 'Mediana IGR',           value: '60,34%', hint: '5 operadoras analisadas', tom: 'neutro' },
+      { label: 'Menor IGR (melhor)',    value: '25,48%', hint: 'IPASGO Saúde', tom: 'positivo' },
+      { label: 'Maior IGR (pior)',      value: '203,20%', hint: 'GEAP', tom: 'negativo' },
       { label: 'Operadoras analisadas', value: '5',      hint: 'Grande porte · GO', tom: 'neutro' }
     ]
   },
 
-  /* ---------- MÓDULO 03 — TIR AUTOGESTÃO ---------- */
+  /* ---------- MÓDULO 03 — TIR AUTOGESTÃO (2 gráficos) ---------- */
   {
     id: 'tir-autogestao',
     badge: 'Módulo 03',
     titulo: 'TIR — Autogestão',
-    subtitulo: 'Taxa de Intervenção Regulatória · Operadoras de grande porte',
+    subtitulo: 'Taxa de Intervenção Regulatória · Operadoras de grande porte e evolução mensal 2026',
     dec: 2,
     menorMelhor: false,
     charts: [
@@ -229,6 +246,16 @@ const SECTIONS = [
         col: 3,
         nota: 'Eixo X: operadoras de grande porte · Linha vermelha tracejada: mediana do conjunto.',
         altura: 'h-64 sm:h-72'
+      },
+      {
+        key: 'tir-mensal',
+        tipo: 'mensal',
+        titulo: 'Evolução da TIR — Autogestão Grande Porte 2026',
+        label: 'TIR Autogestão',
+        labels: TIR_AUTOGESTAO_MENSAL.labels,
+        serie: TIR_AUTOGESTAO_MENSAL.serie,
+        nota: 'Eixo X: meses de competência (jan/26 a ago/26) · Linha vermelha tracejada: mediana do período · Série de TIR da Autogestão de grande porte, conforme anexo de acompanhamento.',
+        altura: 'h-72 sm:h-80'
       }
     ],
     tabelaTitulo: 'Operadoras de grande porte — Autogestão · TIR',
@@ -236,17 +263,17 @@ const SECTIONS = [
     pctCols: [3],
     posCols: [4, 5],
     linhas: [
-      ['GEAP',                     577, 659, 87.60, 1, 6],
-      ['CASSI',                    232, 331, 70.10, 8, 20],
-      ['POSTAL SAÚDE',             192, 242, 79.30, 6, 14],
-      ['PETROBRAS DE SAÚDE - APS',  72,  90, 80.00, 5, 13],
-      ['IPASGO Saúde',             111, 116, 87.10, 2, 7]
+      ['GEAP',                     590, 689, 85.60, 3, 8],
+      ['CASSI',                    241, 328, 73.50, 10, 21],
+      ['POSTAL SAÚDE',             137, 191, 71.70, 11, 23],
+      ['PETROBRAS DE SAÚDE - APS',  73,  89, 82.00, 4, 10],
+      ['IPASGO Saúde',             123, 140, 87.90, 4, 10]
     ],
     kpis: [
-      { label: 'Mediana TIR',           value: '80,00%', hint: '5 operadoras analisadas', tom: 'neutro' },
-      { label: 'Melhor posição porte',  value: '1º',     hint: 'GEAP', tom: 'positivo' },
-      { label: 'Melhor posição setor',  value: '6º',     hint: 'GEAP', tom: 'neutro' },
-      { label: 'Maior TIR',             value: '87,60%', hint: 'GEAP', tom: 'neutro' }
+      { label: 'Mediana TIR',           value: '82,00%', hint: '5 operadoras analisadas', tom: 'neutro' },
+      { label: 'Melhor posição porte',  value: '3º',     hint: 'GEAP', tom: 'positivo' },
+      { label: 'Melhor posição setor',  value: '8º',     hint: 'GEAP', tom: 'neutro' },
+      { label: 'Maior TIR',             value: '87,90%', hint: 'IPASGO Saúde', tom: 'neutro' }
     ]
   },
 
@@ -274,26 +301,25 @@ const SECTIONS = [
     pctCols: [3],
     posCols: [4, 5],
     linhas: [
-      ['UNIMED CNU',     19,  22, 86.4, 3, 4],
-      ['GEAP',            8,  10, 80.0, 4, 6],
-      ['POSTAL SAÚDE',    5,   7, 71.4, 7, 9],
-      ['UNIMED GOIÂNIA', 117, 148, 79.1, 5, 7],
-      ['IPASGO SAÚDE',    96, 111, 86.5, 2, 3]
+      ['UNIMED CNU',     24,  32, 75.0, 5, 7],
+      ['GEAP',            8,   8, 100.0, 1, 1],
+      ['POSTAL SAÚDE',    2,   3, 66.7, 6, 8],
+      ['UNIMED GOIÂNIA', 152, 185, 82.2, 3, 4],
+      ['IPASGO SAÚDE',   117, 133, 88.0, 2, 3]
     ],
     kpis: [
-      { label: 'Mediana TIR',           value: '80,0%', hint: '5 operadoras analisadas', tom: 'neutro' },
-      { label: 'Melhor posição porte',  value: '2º',    hint: 'IPASGO Saúde', tom: 'positivo' },
-      { label: 'Melhor posição setor',  value: '3º',    hint: 'IPASGO Saúde', tom: 'neutro' },
-      { label: 'Maior TIR',             value: '86,5%', hint: 'IPASGO Saúde', tom: 'neutro' }
+      { label: 'Mediana TIR',           value: '82,2%',  hint: '5 operadoras analisadas', tom: 'neutro' },
+      { label: 'Melhor posição porte',  value: '1º',     hint: 'GEAP', tom: 'positivo' },
+      { label: 'Melhor posição setor',  value: '1º',     hint: 'GEAP', tom: 'neutro' },
+      { label: 'Maior TIR',             value: '100,0%', hint: 'GEAP', tom: 'neutro' }
     ]
   }
 ];
 
 /* ============================================================
-   4. PRÉ-CÁLCULO DE MEDIANAS (por gráfico e da tabela)
+   4. PRÉ-CÁLCULO DE MEDIANAS
    ============================================================ */
 SECTIONS.forEach((sec) => {
-  /* Mediana por gráfico */
   sec.charts.forEach((ch) => {
     const valores = ch.tipo === 'mensal'
       ? ch.serie
@@ -303,18 +329,16 @@ SECTIONS.forEach((sec) => {
     ch._labels = ch.tipo === 'mensal' ? ch.labels : sec.linhas.map((l) => l[0]);
   });
 
-  /* Mediana da tabela (coluna percentual) */
   if (sec.pctCols.length) {
     const colIdx = sec.pctCols[0];
     sec._medianaTabela = mediana(sec.linhas.map((l) => l[colIdx]));
   }
 
-  /* Mediana exibida no header (usa 1º gráfico como referência) */
   sec._mediana = sec.charts[0]._mediana;
 });
 
 /* ============================================================
-   5. RENDER — TABELAS (com coloração direcional)
+   5. RENDER — TABELAS
    ============================================================ */
 function renderTable(sec) {
   const head = sec.colunas.map((c, i) =>
@@ -394,11 +418,12 @@ function kpiHTML(k) {
 }
 
 /* ============================================================
-   7. RENDER — BLOCO DE GRÁFICO (reutilizável)
+   7. RENDER — BLOCO DE GRÁFICO
    ============================================================ */
 function chartBlock(sec, ch) {
+  const minH = ch.tipo === 'mensal' ? 'min-h-[18rem]' : 'min-h-[16rem]';
   return `
-    <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 sm:p-4">
+    <div class="rounded-xl border border-slate-200 bg-slate-50/70 p-3 sm:p-4 shrink-0">
       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
         <h3 class="text-[13px] font-extrabold text-slate-700">${ch.titulo}</h3>
         <div class="flex items-center gap-3 text-[10.5px] font-semibold text-slate-500">
@@ -410,7 +435,7 @@ function chartBlock(sec, ch) {
           </span>
         </div>
       </div>
-      <div class="${ch.altura} relative">
+      <div class="${ch.altura} ${minH} relative">
         <canvas id="chart-${sec.id}-${ch.key}"></canvas>
       </div>
       <p class="text-[10px] text-slate-400 mt-2.5 leading-snug">${ch.nota}</p>
@@ -427,7 +452,6 @@ SECTIONS.forEach((sec) => {
   el.className = 'bg-white rounded-2xl border border-slate-200 card-shadow overflow-hidden flex flex-col';
 
   el.innerHTML = `
-    <!-- Cabeçalho do módulo -->
     <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-600 px-5 py-4">
       <div class="flex items-start justify-between gap-4">
         <div class="min-w-0">
@@ -446,20 +470,16 @@ SECTIONS.forEach((sec) => {
       </div>
     </div>
 
-    <!-- Corpo -->
     <div class="p-4 sm:p-5 space-y-5 flex-1 flex flex-col">
 
-      <!-- KPI Cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
         ${sec.kpis.map(kpiHTML).join('')}
       </div>
 
-      <!-- Gráficos -->
-      <div class="space-y-4">
+      <div class="space-y-4 shrink-0">
         ${sec.charts.map((ch) => chartBlock(sec, ch)).join('')}
       </div>
 
-      <!-- Tabela -->
       <div class="rounded-xl border border-slate-200 overflow-hidden mt-auto">
         <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2">
@@ -488,127 +508,144 @@ Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
 Chart.defaults.font.size = 11;
 Chart.defaults.color = '#64748b';
 
-SECTIONS.forEach((sec) => {
-  sec.charts.forEach((ch) => {
-    const canvas = document.getElementById(`chart-${sec.id}-${ch.key}`);
-    if (!canvas) return;
+function renderCharts() {
+  SECTIONS.forEach((sec) => {
+    sec.charts.forEach((ch) => {
+      const canvas = document.getElementById(`chart-${sec.id}-${ch.key}`);
+      if (!canvas) return;
 
-    const labels = ch._labels;
-    const valores = ch._valores;
-    const medianaVal = ch._mediana;
-    const linhaMediana = new Array(valores.length).fill(medianaVal);
+      const labels = ch._labels;
+      const valores = ch._valores;
+      const medianaVal = ch._mediana;
+      const linhaMediana = new Array(valores.length).fill(medianaVal);
 
-    /* Coloração ponto a ponto */
-    const pointBorder = valores.map((v) => {
-      if (!sec.menorMelhor) return '#047857';
-      return v > medianaVal ? '#ef4444' : '#047857';
-    });
-    const pointBg = valores.map(() => '#ffffff');
+      const pointBorder = valores.map((v) => {
+        if (!sec.menorMelhor) return '#047857';
+        return v > medianaVal ? '#ef4444' : '#047857';
+      });
+      const pointBg = valores.map(() => '#ffffff');
 
-    new Chart(canvas.getContext('2d'), {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: ch.label,
-            data: valores,
-            borderColor: '#047857',
-            borderWidth: 3,
-            tension: 0.35,
-            pointRadius: 4.5,
-            pointHoverRadius: 7,
-            pointBackgroundColor: pointBg,
-            pointBorderColor: pointBorder,
-            pointBorderWidth: 2.5,
-            fill: true,
-            backgroundColor: (ctx) => {
-              const { chart } = ctx;
-              const { ctx: c, chartArea } = chart;
-              if (!chartArea) return 'rgba(16,185,129,0.12)';
-              const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-              g.addColorStop(0, 'rgba(16,185,129,0.35)');
-              g.addColorStop(1, 'rgba(16,185,129,0.02)');
-              return g;
+      const isMensal = ch.tipo === 'mensal';
+
+      new Chart(canvas.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: ch.label,
+              data: valores,
+              borderColor: '#047857',
+              borderWidth: 3,
+              tension: 0.35,
+              pointRadius: 4.5,
+              pointHoverRadius: 7,
+              pointBackgroundColor: pointBg,
+              pointBorderColor: pointBorder,
+              pointBorderWidth: 2.5,
+              fill: true,
+              backgroundColor: (ctx) => {
+                const { chart } = ctx;
+                const { ctx: c, chartArea } = chart;
+                if (!chartArea) return 'rgba(16,185,129,0.12)';
+                const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                g.addColorStop(0, 'rgba(16,185,129,0.35)');
+                g.addColorStop(1, 'rgba(16,185,129,0.02)');
+                return g;
+              },
+              order: 1
             },
-            order: 1
-          },
-          {
-            label: 'Mediana',
-            data: linhaMediana,
-            borderColor: '#ef4444',
-            borderWidth: 2,
-            borderDash: [7, 6],
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            fill: false,
-            tension: 0,
-            order: 0
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        layout: { padding: { top: 6, right: 8, left: 0, bottom: 0 } },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: 'rgba(6,78,59,0.94)',
-            titleColor: '#d1fae5',
-            bodyColor: '#ffffff',
-            padding: 10,
-            cornerRadius: 8,
-            displayColors: true,
-            boxPadding: 4,
-            titleFont: { size: 11.5, weight: '700' },
-            bodyFont: { size: 11.5, weight: '600' },
-            callbacks: {
-              label: (ctx) => {
-                if (ctx.datasetIndex === 1) {
-                  return `  Mediana: ${fmtNum(ctx.parsed.y, sec.dec)}%`;
+            {
+              label: 'Mediana',
+              data: linhaMediana,
+              borderColor: '#ef4444',
+              borderWidth: 2,
+              borderDash: [7, 6],
+              pointRadius: 0,
+              pointHoverRadius: 0,
+              fill: false,
+              tension: 0,
+              order: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+
+          layout: { padding: { top: 14, right: 18, left: 10, bottom: 14 } },
+
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(6,78,59,0.94)',
+              titleColor: '#d1fae5',
+              bodyColor: '#ffffff',
+              padding: 10,
+              cornerRadius: 8,
+              displayColors: true,
+              boxPadding: 4,
+              titleFont: { size: 11.5, weight: '700' },
+              bodyFont: { size: 11.5, weight: '600' },
+              callbacks: {
+                label: (ctx) => {
+                  if (ctx.datasetIndex === 1) {
+                    return `  Mediana: ${fmtNum(ctx.parsed.y, sec.dec)}%`;
+                  }
+                  const v = ctx.parsed.y;
+                  let tag = '';
+                  if (sec.menorMelhor) {
+                    tag = v < medianaVal ? '  ▼ abaixo da mediana (melhor)'
+                         : v > medianaVal ? '  ▲ acima da mediana (pior)'
+                         : '  = na mediana';
+                  }
+                  return `  ${ch.label}: ${fmtNum(v, sec.dec)}%${tag}`;
                 }
-                const v = ctx.parsed.y;
-                let tag = '';
-                if (sec.menorMelhor) {
-                  tag = v < medianaVal ? '  ▼ abaixo da mediana (melhor)'
-                       : v > medianaVal ? '  ▲ acima da mediana (pior)'
-                       : '  = na mediana';
-                }
-                return `  ${ch.label}: ${fmtNum(v, sec.dec)}%${tag}`;
               }
             }
-          }
-        },
-        scales: {
-          x: {
-            grid: { display: false },
-            border: { color: '#e2e8f0' },
-            ticks: {
-              maxRotation: 40,
-              minRotation: 0,
-              autoSkip: false,
-              font: { size: 10, weight: '600' },
-              color: '#64748b'
+          },
+
+          scales: {
+            x: {
+              grid: { display: false },
+              border: { color: '#e2e8f0' },
+              ticks: {
+                maxRotation: isMensal ? 0 : 40,
+                minRotation: 0,
+                autoSkip: isMensal ? true : false,
+                maxTicksLimit: isMensal ? 9 : undefined,
+                padding: 8,
+                font: { size: 10, weight: '600' },
+                color: '#64748b'
+              }
+            },
+            y: {
+              beginAtZero: false,
+              grace: '12%',
+              grid: { color: '#eef2f6' },
+              border: { display: false },
+              ticks: {
+                padding: 8,
+                font: { size: 10, weight: '600' },
+                color: '#64748b',
+                callback: (v) => fmtNum(v, sec.dec) + '%'
+              }
             }
           },
-          y: {
-            beginAtZero: false,
-            grid: { color: '#eef2f6' },
-            border: { display: false },
-            ticks: {
-              font: { size: 10, weight: '600' },
-              color: '#64748b',
-              callback: (v) => fmtNum(v, sec.dec) + '%'
-            }
-          }
-        },
-        animation: { duration: 900, easing: 'easeOutQuart' }
-      }
+
+          animation: { duration: 900, easing: 'easeOutQuart' }
+        }
+      });
     });
   });
-});
+}
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(renderCharts);
+} else {
+  renderCharts();
+}
 </script>
 </body>
 </html>
