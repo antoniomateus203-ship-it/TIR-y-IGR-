@@ -48,7 +48,7 @@
       <div class="flex flex-wrap items-center gap-3">
         <div class="rounded-xl bg-white/10 border border-white/20 backdrop-blur px-4 py-2.5">
           <p class="text-emerald-200 text-[10px] font-bold uppercase tracking-wider">Competência</p>
-          <p class="text-white text-sm font-bold">jan/26 – set/26</p>
+          <p class="text-white text-sm font-bold">jan/26 – out/26</p>
         </div>
         <div class="rounded-xl bg-white/10 border border-white/20 backdrop-blur px-4 py-2.5">
           <p class="text-emerald-200 text-[10px] font-bold uppercase tracking-wider">Módulos</p>
@@ -93,8 +93,7 @@
       </p>
       <p>
         <strong class="text-slate-700">Evolução mensal da TIR:</strong>
-        série de jan/26 a ago/26 das operadoras de grande porte — Autogestão, conforme anexo de acompanhamento.
-        A competência set/26 não integra a série de evolução da TIR.
+        série de jan/26 a set/26 das operadoras de grande porte — Autogestão, conforme anexo de acompanhamento.
       </p>
       <p>Dados extraídos das planilhas oficiais de acompanhamento de operadoras de grande porte — Autogestão e Regional GO.</p>
     </div>
@@ -124,14 +123,14 @@ const posBadge = (v) =>
    2. BASE DE DADOS
    ============================================================ */
 const IGR_IPASGO_MENSAL = {
-  labels: ['jan/26','fev/26','mar/26','abr/26','mai/26','jun/26','jul/26','ago/26','set/26'],
-  serie:  [15.46, 14.81, 18.93, 14.18, 17.90, 14.89, 23.43, 20.94, 25.19]
+  labels: ['jan/26','fev/26','mar/26','abr/26','mai/26','jun/26','jul/26','ago/26','set/26','out/26'],
+  serie:  [15.46, 14.81, 18.93, 14.18, 17.90, 14.89, 23.43, 20.94, 25.19, 26.08]
 };
 
-/* Evolução da TIR — Autogestão Grande Porte (jan a ago/26) — conforme anexo */
+/* Evolução da TIR — Autogestão Grande Porte (jan a set/26) — conforme anexo */
 const TIR_AUTOGESTAO_MENSAL = {
-  labels: ['jan/26','fev/26','mar/26','abr/26','mai/26','jun/26','jul/26','ago/26'],
-  serie:  [76.1, 90.5, 81.3, 80.0, 88.1, 83.3, 86.4, 86.3]
+  labels: ['jan/26','fev/26','mar/26','abr/26','mai/26','jun/26','jul/26','ago/26','set/26'],
+  serie:  [76.1, 90.5, 81.3, 80.0, 88.1, 83.3, 86.4, 86.3, 87.9]
 };
 
 const COLS_IGR = ['Operadora', 'Numerador', 'IGR', 'Posição entre as OPs do mesmo porte', 'Posição Geral Setor'];
@@ -158,7 +157,7 @@ const SECTIONS = [
         label: 'IGR IPASGO Saúde',
         labels: IGR_IPASGO_MENSAL.labels,
         serie: IGR_IPASGO_MENSAL.serie,
-        nota: 'Eixo X: meses de competência (jan/26 a set/26) · Linha vermelha tracejada: mediana do período · Pontos verdes = abaixo da mediana (melhor), vermelhos = acima (pior).',
+        nota: 'Eixo X: meses de competência (jan/26 a out/26) · Linha vermelha tracejada: mediana do período · Pontos verdes = abaixo da mediana (melhor), vermelhos = acima (pior).',
         altura: 'h-64 sm:h-72'
       },
       {
@@ -184,10 +183,10 @@ const SECTIONS = [
       ['ASSEFAZ',                  110, 106.70, 3, 8]
     ],
     kpis: [
-      { label: 'IGR IPASGO · set/26',  value: '25,19%', hint: 'Última competência', tom: 'negativo' },
-      { label: 'Mediana IGR IPASGO',   value: '17,90%', hint: '9 meses analisados', tom: 'neutro' },
+      { label: 'IGR IPASGO · out/26',  value: '26,08%', hint: 'Última competência', tom: 'negativo' },
+      { label: 'Mediana IGR IPASGO',   value: '18,42%', hint: '10 meses analisados', tom: 'neutro' },
       { label: 'Menor IGR do período', value: '14,18%', hint: 'abr/26 · melhor resultado', tom: 'positivo' },
-      { label: 'Variação jan → set',   value: '+62,9%', hint: '15,46% → 25,19% · piora', tom: 'negativo' }
+      { label: 'Variação jan → out',   value: '+68,7%', hint: '15,46% → 26,08% · piora', tom: 'negativo' }
     ]
   },
 
@@ -254,7 +253,7 @@ const SECTIONS = [
         label: 'TIR Autogestão',
         labels: TIR_AUTOGESTAO_MENSAL.labels,
         serie: TIR_AUTOGESTAO_MENSAL.serie,
-        nota: 'Eixo X: meses de competência (jan/26 a ago/26) · Linha vermelha tracejada: mediana do período · Série de TIR da Autogestão de grande porte, conforme anexo de acompanhamento.',
+        nota: 'Eixo X: meses de competência (jan/26 a set/26) · Linha vermelha tracejada: mediana do período · Série de TIR da Autogestão de grande porte, conforme anexo de acompanhamento.',
         altura: 'h-72 sm:h-80'
       }
     ],
@@ -614,7 +613,7 @@ function renderCharts() {
                 maxRotation: isMensal ? 0 : 40,
                 minRotation: 0,
                 autoSkip: isMensal ? true : false,
-                maxTicksLimit: isMensal ? 9 : undefined,
+                maxTicksLimit: isMensal ? 10 : undefined,
                 padding: 8,
                 font: { size: 10, weight: '600' },
                 color: '#64748b'
